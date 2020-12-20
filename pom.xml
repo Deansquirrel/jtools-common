@@ -14,6 +14,28 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+<licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <scm>
+        <url>https://github.com/Deansquirrel/yuansong-tools-common</url>
+        <connection>scm:git:https://github.com/Deansquirrel/yuansong-tools-common.git</connection>
+        <developerConnection>scm:git:git@github.com/Deansquirrel/yuansong-tools-common.git</developerConnection>
+    </scm>
+    
+    <developers>
+        <developer>
+            <name>deansquirrel</name>
+            <email>deansquirrel@hotmail.com</email>
+            <url>https://github.com/deansquirrel</url>
+        </developer>
+    </developers>
+
   <profiles>
     <profile>
       <id>release</id>
