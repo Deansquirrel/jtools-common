@@ -1,4 +1,4 @@
-package com.github.deansquirrel;
+package com.github.deansquirrel.tools.common;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
