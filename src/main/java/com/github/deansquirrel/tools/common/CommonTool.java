@@ -17,9 +17,9 @@ public class CommonTool {
 	private CommonTool() {}
 	
 	/***
-	 * 字符串MD5计算
+	 * MD5计算
 	 * @param data
-	 * @return
+	 * @return 32位MD5
 	 * @throws NoSuchAlgorithmException 
 	 * @throws UnsupportedEncodingException 
 	 */
