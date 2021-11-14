@@ -25,7 +25,7 @@ public class MathTool {
 		if(max == null) {
 			max = 0;
 		}
-		if(min == max) {
+		if(min.equals(max)) {
 			return min;
 		}
 		if(min>max) {

@@ -12,14 +12,11 @@ package com.github.deansquirrel.tools.common;
  *     5位worker Id：工作机器号，预分配不重复的ID
  * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，
- * 
- * @author yuansong6@163.com
- *  
  */
 public class SnowFlakeIdGenerator {
     //开始时间戳：2020-01-01
     private final long twitEpoch = 1577808000000L;
-    
+
     //机器ID的位数：5
     private final long workerIdBits = 5L;
     
@@ -103,7 +100,7 @@ public class SnowFlakeIdGenerator {
         lastTimestamp = timestamp;
         
         //拼接ID
-        return ((timestamp - twitEpoch) << timestampLeftShift) 
+        return ((timestamp - twitEpoch) << timestampLeftShift)
                 | (datacenterId << datacenterIdShift)
                 | (workerId << workerIdShift)
                 | sequence;

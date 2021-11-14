@@ -14,19 +14,18 @@ public class DateTool {
 
 	private DateTool() {}
 
-	private static String _dateFormat = "yyyy-MM-dd";
-	private static String _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
-	private static String _datetimeWithMillionsecondFormat = "yyyy-MM-dd HH:mm:ss.SSS";
+	private static final String _dateFormat = "yyyy-MM-dd";
+	private static final String _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
+	private static final String _datetimeWithMillionSecondFormat = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	/**
 	 * 获取指定日期、指定格式的日期字符串
-	 * 
-	 * @param date
-	 * @param format
-	 * @return
+	 * @param date 日期
+	 * @param format 格式
+	 * @return 字符串
 	 */
 	public static String GetStr(Date date, String format) {
-		if (date == null || format == null || format.trim() == "") {
+		if (date == null || format == null || format.trim().equals("")) {
 			return null;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -35,8 +34,8 @@ public class DateTool {
 
 	/**
 	 * 获取当前日期、指定格式的日期字符串
-	 * @param format
-	 * @return
+	 * @param format 格式
+	 * @return 字符串
 	 */
 	public static String GetStr(String format) {
 		return GetStr(new Date(), format);
@@ -44,8 +43,8 @@ public class DateTool {
 
 	/**
 	 * 获取指定日期字符串 yyyy-MM-dd
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return 字符串
 	 */
 	public static String GetDateStr(Date date) {
 		return GetStr(date, _dateFormat);
@@ -53,7 +52,7 @@ public class DateTool {
 
 	/**
 	 * 获取当前日期字符串 yyyy-MM-dd
-	 * @return
+	 * @return 字符串
 	 */
 	public static String GetDateStr() {
 		return GetStr(new Date(), _dateFormat);
@@ -61,8 +60,8 @@ public class DateTool {
 
 	/**
 	 * 获取指定日期字符串 yyyy-MM-dd HH:mm:ss
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return 字符串
 	 */
 	public static String GetDateTimeStr(Date date) {
 		return GetStr(date, _datetimeFormat);
@@ -70,7 +69,7 @@ public class DateTool {
 
 	/**
 	 * 获取当前日期字符串 yyyy-MM-dd HH:mm:ss
-	 * @return
+	 * @return 字符串
 	 */
 	public static String GetDateTimeStr() {
 		return GetStr(new Date(), _datetimeFormat);
@@ -78,30 +77,30 @@ public class DateTool {
 
 	/**
 	 * 获取指定日期字符串 yyyy-MM-dd HH:mm:ss.SSS
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return 字符串
 	 */
-	public static String GetDateTimeWithMillionsecond(Date date) {
-		return GetStr(date, _datetimeWithMillionsecondFormat);
+	public static String GetDateTimeWithMillionSecond(Date date) {
+		return GetStr(date, _datetimeWithMillionSecondFormat);
 	}
 
 	/**
 	 * 获取当前日期字符串 yyyy-MM-dd HH:mm:ss.SSS
-	 * @return
+	 * @return 字符串
 	 */
-	public static String GetDateTimeWithMillionsecond() {
-		return GetStr(new Date(), _datetimeWithMillionsecondFormat);
+	public static String GetDateTimeWithMillionSecond() {
+		return GetStr(new Date(), _datetimeWithMillionSecondFormat);
 	}
 
 	/**
 	 * 根据日期字符串和指定格式转换日期
-	 * @param date
-	 * @param format
-	 * @return
-	 * @throws ParseException
+	 * @param date 日期
+	 * @param format 格式
+	 * @return 字符串
+	 * @throws ParseException 转换异常
 	 */
 	public static Date ParseStr(String date, String format) throws ParseException {
-		if (date == null || format == null || format.trim() == "") {
+		if (date == null || format == null || format.trim().equals("")) {
 			return null;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -110,9 +109,9 @@ public class DateTool {
 
 	/**
 	 * 根据日期字符串转换日期 yyyy-MM-dd
-	 * @param date
-	 * @return
-	 * @throws ParseException
+	 * @param date 日期
+	 * @return 字符串
+	 * @throws ParseException 转换异常
 	 */
 	public static Date ParseDateStr(String date) throws ParseException {
 		return ParseStr(date, _dateFormat);
@@ -120,9 +119,9 @@ public class DateTool {
 	
 	/**
 	 * 根据日期字符串转换日期 yyyy-MM-dd HH:mm:ss
-	 * @param date
-	 * @return
-	 * @throws ParseException
+	 * @param date 日期
+	 * @return 字符串
+	 * @throws ParseException 转换异常
 	 */
 	public static Date ParseDateTimeStr(String date) throws ParseException {
 		return ParseStr(date, _datetimeFormat);
@@ -130,11 +129,11 @@ public class DateTool {
 	
 	/**
 	 * 根据日期字符串转换日期 yyyy-MM-dd HH:mm:ss.SSS
-	 * @param date
-	 * @return
-	 * @throws ParseException
+	 * @param date 日期
+	 * @return 字符串
+	 * @throws ParseException 转换异常
 	 */
-	public static Date ParseDateTimeWithMillionsecond(String date) throws ParseException {
-		return ParseStr(date, _datetimeWithMillionsecondFormat);
+	public static Date ParseDateTimeWithMillionSecond(String date) throws ParseException {
+		return ParseStr(date, _datetimeWithMillionSecondFormat);
 	}
 }
