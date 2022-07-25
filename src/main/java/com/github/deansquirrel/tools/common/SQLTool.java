@@ -2,6 +2,8 @@ package com.github.deansquirrel.tools.common;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
 
 /***
  * SQL 帮助类
@@ -182,6 +184,58 @@ public class SQLTool {
 	 */
 	public static java.math.BigDecimal getBigDecimal(ResultSet rs, String columnLabel) throws SQLException {
 		return rs.getBigDecimal(columnLabel);
+	}
+
+	/**
+	 * 转换SQL数据库日期时间字段
+	 * @param rs 数据集
+	 * @param columnLabel
+	 * @return
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public static Date getSQLiteDateTime(ResultSet rs, String columnLabel) throws SQLException, ParseException {
+		String t = SQLTool.getString(rs, columnLabel);
+		if(t == null || "".equals(t)) {
+			return null;
+		}
+		return DateTool.ParseDateTimeStr(t.substring(0, 19));
+	}
+
+	/**
+	 * 转换SQL数据库日期时间字段
+	 * @param rs
+	 * @param columnLabel
+	 * @return
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public static Date getSQLiteDate(ResultSet rs, String columnLabel) throws SQLException, ParseException {
+		String t = SQLTool.getString(rs, columnLabel);
+		if(t == null || "".equals(t)) {
+			return null;
+		}
+		return DateTool.ParseDateStr(t.substring(0, 10));
+	}
+
+	/**
+	 * 根据指定格式转换SQL数据库日期时间字段
+	 * @param rs
+	 * @param columnLabel
+	 * @param dateFormat 日期格式字符串
+	 * @return
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public static Date getSQLiteDate(ResultSet rs, String columnLabel, String dateFormat) throws SQLException, ParseException {
+		if(dateFormat == null || "".equals(dateFormat)) {
+			return null;
+		}
+		String t = SQLTool.getString(rs, columnLabel);
+		if(t == null || "".equals(t)) {
+			return null;
+		}
+		return DateTool.ParseStr(t.substring(0,  dateFormat.length()), dateFormat);
 	}
 
 }
