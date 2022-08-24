@@ -18,6 +18,10 @@ public class DateTool {
 	private static final String _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
 	private static final String _datetimeWithMillionSecondFormat = "yyyy-MM-dd HH:mm:ss.SSS";
 
+	private static final String _ymFormat = "yyyy-mm";
+
+	private static final String _ymStrFormat = "yyyymm";
+
 	/**
 	 * 获取指定日期、指定格式的日期字符串
 	 * @param date 日期
@@ -136,4 +140,79 @@ public class DateTool {
 	public static Date ParseDateTimeWithMillionSecond(String date) throws ParseException {
 		return ParseStr(date, _datetimeWithMillionSecondFormat);
 	}
+
+	//年首日
+	//年末日
+	//年首月末日
+	//年末月首日
+
+	//季度首日
+	//季度末日
+	//季度首月首日
+	//季度首月末日
+	//季度次月首日
+	//季度次月末日
+	//季度季月首日
+	//季度季月末日
+
+	//月首日
+	//月末日
+
+
+
+
+	//下年首日 DATE_YEAR_NEXT_BEGIN
+	//下年末日 DATE_YEAR_NEXT_END
+	//当年首日 DATE_YEAR_CURR_BEGIN
+	//当年末日 DATE_YEAR_CURR_END
+	//当年首月首日 DATE_MONTH_FIRST_BEGIN
+	//当年首月末日 DATE_MONTH_FIRST_END
+	//当月首日 DATE_MONTH_CURR_BEGIN
+	//当月末日 DATE_MONTH_CURR_END
+	//	DATE_MONTH_PREVIOUS_BEGIN,
+	//	DATE_MONTH_PREVIOUS_END,
+	//	DATE_MONTH_NEXT_BEGIN,
+	//	DATE_MONTH_NEXT_END,
+	//	DATE_QUARTER_FIRST_BEGIN,
+	//	DATE_QUARTER_FIRST_END,
+	//	DATE_QUARTER_CURR_BEGIN,
+	//	DATE_QUARTER_CURR_END,
+	//	DATE_QUARTER_NEXT_BEGIN,
+	//	DATE_QUARTER_NEXT_END,
+	//	DATE_QUARTER_PREVIOUS_BEGIN,
+	//	DATE_QUARTER_PREVIOUS_END,
+	//	DATETIME_YEAR_NEXT_BEGIN,
+	//	DATETIME_YEAR_CURR_BEGIN,
+	//	DATETIME_YEAR_CURR_END,
+	//	DATETIME_MONTH_FIRST_BEGIN,
+	//	DATETIME_MONTH_FIRST_END,
+	//	DATETIME_MONTH_CURR_BEGIN,
+	//	DATETIME_MONTH_CURR_END,
+	//	DATETIME_MONTH_PREVIOUS_BEGIN,
+	//	DATETIME_MONTH_PREVIOUS_END,
+	//	DATETIME_MONTH_NEXT_BEGIN,
+	//	DATETIME_MONTH_NEXT_END,
+	//	DATETIME_QUARTER_FIRST_BEGIN,
+	//	DATETIME_QUARTER_FIRST_END,
+	//	DATETIME_QUARTER_CURR_BEGIN,
+	//	DATETIME_QUARTER_CURR_END,
+	//	DATETIME_QUARTER_NEXT_BEGIN,
+	//	DATETIME_QUARTER_NEXT_END,
+	//	DATETIME_QUARTER_PREVIOUS_BEGIN,
+	//	DATETIME_QUARTER_PREVIOUS_END,
+	//	YM_YEAR_NEXT_BEGIN,
+	//	YM_YEAR_CURR_BEGIN,
+	//	YM_YEAR_CURR_END,
+	//	YM_MONTH_FIRST,
+	//	YM_MONTH_CURR,
+	//	YM_MONTH_PREVIOUS,
+	//	YM_MONTH_NEXT,
+	//	YM_QUARTER_FIRST_BEGIN,
+	//	YM_QUARTER_FIRST_END,
+	//	YM_QUARTER_CURR_BEGIN,
+	//	YM_QUARTER_CURR_END,
+	//	YM_QUARTER_NEXT_BEGIN,
+	//	YM_QUARTER_NEXT_END,
+	//	YM_QUARTER_PREVIOUS_BEGIN,
+	//	YM_QUARTER_PREVIOUS_END,
 }
