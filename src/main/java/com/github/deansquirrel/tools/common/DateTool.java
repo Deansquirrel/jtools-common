@@ -2,13 +2,12 @@ package com.github.deansquirrel.tools.common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /***
  * 日期工具类
- * 
  * @author yuansong6@163.com
- *
  */
 public class DateTool {
 
@@ -141,10 +140,80 @@ public class DateTool {
 		return ParseStr(date, _datetimeWithMillionSecondFormat);
 	}
 
-	//年首日
-	//年末日
+	/**
+	 * 获取指定日期的整点时间 00:00:00
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetZeroDate(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(date.getTime());
+		cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0,0,0);
+		return cal.getTime();
+	}
+
+	/**
+	 * 获取当月首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetMonthFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		return cal.getTime();
+	}
+
+	/**
+	 * 获取当月最后一天
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetMonthLastDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetMonthFirstDay(date).getTime());
+		cal.add(Calendar.MONTH, 1);;
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		return cal.getTime();
+	}
+
+	/**
+	 * 获取当年第一天的日期
+	 * @param date 指定日志
+	 * @return 维护后的日期
+	 */
+	public static Date GetYearFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.set(Calendar.MONTH, Calendar.JANUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		return cal.getTime();
+	}
+
+	/***
+	 * 获取当年最后一天的日期
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetYearLastDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.add(Calendar.YEAR, 1);
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		return cal.getTime();
+	}
+
+	/**
+	 * 获取当年首月首日（通当年首日）
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetFirstMonthFirstDay(Date date) {
+		return GetYearFirstDay(date);
+	}
 	//年首月末日
 	//年末月首日
+	//年末月末日
 
 	//季度首日
 	//季度末日
@@ -154,9 +223,6 @@ public class DateTool {
 	//季度次月末日
 	//季度季月首日
 	//季度季月末日
-
-	//月首日
-	//月末日
 
 
 
