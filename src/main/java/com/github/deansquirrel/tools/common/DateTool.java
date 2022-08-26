@@ -190,7 +190,7 @@ public class DateTool {
 		return cal.getTime();
 	}
 
-	/***
+	/**
 	 * 获取当年最后一天的日期
 	 * @param date 指定日期
 	 * @return 维护后的日期
@@ -204,17 +204,50 @@ public class DateTool {
 	}
 
 	/**
-	 * 获取当年首月首日（通当年首日）
+	 * 获取当年首月首日（同当年首日）
 	 * @param date 指定日期
 	 * @return 维护后的日期
 	 */
 	public static Date GetFirstMonthFirstDay(Date date) {
 		return GetYearFirstDay(date);
 	}
-	//年首月末日
-	//年末月首日
-	//年末月末日
 
+	/**
+	 * 获取当年首月末日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetFirstMonthLastDay(Date date) {
+		return GetMonthLastDay(GetYearFirstDay(date));
+	}
+
+	/**
+	 * 获取当年末月首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetLastMonthFirstDay(Date date) {
+		return GetMonthFirstDay(GetYearLastDay(date));
+	}
+
+	/**
+	 * 获取当年末月末日（同当年末日）
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetLastMonthLastDay(Date date) {
+		return GetYearLastDay(date);
+	}
+
+	/**
+	 * 获取季度首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterFirstDay(Date date){
+		//TODO
+		return date;
+	}
 	//季度首日
 	//季度末日
 	//季度首月首日
