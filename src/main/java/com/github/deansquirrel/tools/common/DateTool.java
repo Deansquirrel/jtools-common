@@ -17,10 +17,6 @@ public class DateTool {
 	private static final String _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
 	private static final String _datetimeWithMillionSecondFormat = "yyyy-MM-dd HH:mm:ss.SSS";
 
-	private static final String _ymFormat = "yyyy-mm";
-
-	private static final String _ymStrFormat = "yyyymm";
-
 	/**
 	 * 获取指定日期、指定格式的日期字符串
 	 * @param date 日期
@@ -165,6 +161,30 @@ public class DateTool {
 	}
 
 	/**
+	 * 获取下月首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetNextMonthFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.add(Calendar.MONTH, 1);
+		return GetMonthFirstDay(cal.getTime());
+	}
+
+	/**
+	 * 获取上月首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetPreviousMonthFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.add(Calendar.MONTH, -1);
+		return GetMonthFirstDay(cal.getTime());
+	}
+
+	/**
 	 * 获取当月最后一天
 	 * @param date 指定日期
 	 * @return 维护后的日期
@@ -188,6 +208,30 @@ public class DateTool {
 		cal.set(Calendar.MONTH, Calendar.JANUARY);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		return cal.getTime();
+	}
+
+	/**
+	 * 获取明年第一天的日期
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetNextYearFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.add(Calendar.YEAR, 1);
+		return GetYearFirstDay(cal.getTime());
+	}
+
+	/**
+	 * 获取去年第一天的日期
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetPreviousYearFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.add(Calendar.YEAR, -1);
+		return GetYearFirstDay(cal.getTime());
 	}
 
 	/**
@@ -245,73 +289,112 @@ public class DateTool {
 	 * @return 维护后的日期
 	 */
 	public static Date GetQuarterFirstDay(Date date){
-		//TODO
-		return date;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(GetZeroDate(date));
+		int ret = cal.get(Calendar.MONTH) % 3;
+		if(ret != 0) {
+			cal.add(Calendar.MONTH, -1 * ret);
+		}
+		return GetMonthFirstDay(cal.getTime());
 	}
-	//季度首日
-	//季度末日
-	//季度首月首日
-	//季度首月末日
-	//季度次月首日
-	//季度次月末日
-	//季度季月首日
-	//季度季月末日
 
+	/**
+	 * 获取下季度首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetNextQuarterFirstDay(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(GetZeroDate(date));
+		cal.add(Calendar.MONTH,3);
+		return GetQuarterFirstDay(cal.getTime());
+	}
 
+	/**
+	 * 获取上季度首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetPreviousQuarterFirstDay(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(GetZeroDate(date));
+		cal.add(Calendar.MONTH,-3);
+		return GetQuarterFirstDay(cal.getTime());
+	}
 
+	/**
+	 * 获取季度末日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterLastDay(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(GetZeroDate(date));
+		int ret = 2 - cal.get(Calendar.MONTH) % 3;
+		if(ret != 0) {
+			cal.add(Calendar.MONTH, ret);
+		}
+		return GetMonthLastDay(cal.getTime());
+	}
 
-	//下年首日 DATE_YEAR_NEXT_BEGIN
-	//下年末日 DATE_YEAR_NEXT_END
-	//当年首日 DATE_YEAR_CURR_BEGIN
-	//当年末日 DATE_YEAR_CURR_END
-	//当年首月首日 DATE_MONTH_FIRST_BEGIN
-	//当年首月末日 DATE_MONTH_FIRST_END
-	//当月首日 DATE_MONTH_CURR_BEGIN
-	//当月末日 DATE_MONTH_CURR_END
-	//	DATE_MONTH_PREVIOUS_BEGIN,
-	//	DATE_MONTH_PREVIOUS_END,
-	//	DATE_MONTH_NEXT_BEGIN,
-	//	DATE_MONTH_NEXT_END,
-	//	DATE_QUARTER_FIRST_BEGIN,
-	//	DATE_QUARTER_FIRST_END,
-	//	DATE_QUARTER_CURR_BEGIN,
-	//	DATE_QUARTER_CURR_END,
-	//	DATE_QUARTER_NEXT_BEGIN,
-	//	DATE_QUARTER_NEXT_END,
-	//	DATE_QUARTER_PREVIOUS_BEGIN,
-	//	DATE_QUARTER_PREVIOUS_END,
-	//	DATETIME_YEAR_NEXT_BEGIN,
-	//	DATETIME_YEAR_CURR_BEGIN,
-	//	DATETIME_YEAR_CURR_END,
-	//	DATETIME_MONTH_FIRST_BEGIN,
-	//	DATETIME_MONTH_FIRST_END,
-	//	DATETIME_MONTH_CURR_BEGIN,
-	//	DATETIME_MONTH_CURR_END,
-	//	DATETIME_MONTH_PREVIOUS_BEGIN,
-	//	DATETIME_MONTH_PREVIOUS_END,
-	//	DATETIME_MONTH_NEXT_BEGIN,
-	//	DATETIME_MONTH_NEXT_END,
-	//	DATETIME_QUARTER_FIRST_BEGIN,
-	//	DATETIME_QUARTER_FIRST_END,
-	//	DATETIME_QUARTER_CURR_BEGIN,
-	//	DATETIME_QUARTER_CURR_END,
-	//	DATETIME_QUARTER_NEXT_BEGIN,
-	//	DATETIME_QUARTER_NEXT_END,
-	//	DATETIME_QUARTER_PREVIOUS_BEGIN,
-	//	DATETIME_QUARTER_PREVIOUS_END,
-	//	YM_YEAR_NEXT_BEGIN,
-	//	YM_YEAR_CURR_BEGIN,
-	//	YM_YEAR_CURR_END,
-	//	YM_MONTH_FIRST,
-	//	YM_MONTH_CURR,
-	//	YM_MONTH_PREVIOUS,
-	//	YM_MONTH_NEXT,
-	//	YM_QUARTER_FIRST_BEGIN,
-	//	YM_QUARTER_FIRST_END,
-	//	YM_QUARTER_CURR_BEGIN,
-	//	YM_QUARTER_CURR_END,
-	//	YM_QUARTER_NEXT_BEGIN,
-	//	YM_QUARTER_NEXT_END,
-	//	YM_QUARTER_PREVIOUS_BEGIN,
-	//	YM_QUARTER_PREVIOUS_END,
+	/**
+	 * 获取季度首月首日（同季度首日）
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterFirstMonthFirstDay(Date date) {
+		return GetQuarterFirstDay(date);
+	}
+
+	/**
+	 * 获取季度首月末日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterFirstMonthLastDay(Date date) {
+		return GetMonthLastDay(GetQuarterFirstMonthFirstDay(date));
+	}
+
+	/**
+	 * 获取季度次月首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterSecondMonthFirstDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(GetZeroDate(date));
+		int ret = 1 - cal.get(Calendar.MONTH) % 3;
+		if(ret != 0) {
+			cal.add(Calendar.MONTH, ret);
+		}
+		return GetMonthFirstDay(cal.getTime());
+	}
+
+	/**
+	 * 获取季度次月末日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterSecondMonthLastDay(Date date) {
+		return GetMonthLastDay(GetQuarterSecondMonthFirstDay(date));
+	}
+
+	/**
+	 * 获取季度末月首日
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterThirdMonthFirstDay(Date date) {
+		return GetMonthFirstDay(GetQuarterLastDay(date));
+	}
+
+	/**
+	 * 获取季度末月末日（同季度末日）
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetQuarterThirdMonthLastDay(Date date) {
+		return GetQuarterLastDay(date);
+	}
+
 }
