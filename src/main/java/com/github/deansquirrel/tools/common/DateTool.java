@@ -155,7 +155,7 @@ public class DateTool {
 	 */
 	public static Date GetMonthFirstDay(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		return cal.getTime();
 	}
@@ -167,7 +167,7 @@ public class DateTool {
 	 */
 	public static Date GetNextMonthFirstDay(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
 		cal.add(Calendar.MONTH, 1);
 		return GetMonthFirstDay(cal.getTime());
 	}
@@ -179,7 +179,7 @@ public class DateTool {
 	 */
 	public static Date GetPreviousMonthFirstDay(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetYearFirstDay(date).getTime());
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
 		cal.add(Calendar.MONTH, -1);
 		return GetMonthFirstDay(cal.getTime());
 	}
@@ -191,8 +191,7 @@ public class DateTool {
 	 */
 	public static Date GetMonthLastDay(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetMonthFirstDay(date).getTime());
-		cal.add(Calendar.MONTH, 1);;
+		cal.setTimeInMillis(GetNextMonthFirstDay(date).getTime());
 		cal.add(Calendar.DAY_OF_MONTH, -1);
 		return cal.getTime();
 	}
