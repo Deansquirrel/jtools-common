@@ -1,5 +1,6 @@
 package com.github.deansquirrel.tools.common;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 /***
@@ -16,7 +17,7 @@ public class MathTool {
 	 * 根据指定范围，返回随机整数
 	 * @param min 最小值
 	 * @param max 最大值（不含）
-	 * @return
+	 * @return 整数
 	 */
 	public static Integer RandInt(Integer min,Integer max) {
 		if(min == null) {
@@ -40,9 +41,35 @@ public class MathTool {
 	/**
 	 * 返回随机整数（最小值=0）
 	 * @param max 最大值（不含）
-	 * @return
+	 * @return 整数
 	 */
 	public static Integer RandInt(Integer max) {
 		return RandInt(0, max);
+	}
+
+	public static Long addLong(Long a, Long b) {
+		if(a == null && b == null) {
+			return null;
+		}
+		if(a == null) {
+			return b;
+		}
+		if(b == null) {
+			return a;
+		}
+		return a + b;
+	}
+
+	public static BigDecimal addBigDecimal(BigDecimal a, BigDecimal b) {
+		if(a == null && b == null) {
+			return null;
+		}
+		if(a == null) {
+			return b;
+		}
+		if(b == null) {
+			return a;
+		}
+		return a.add(b);
 	}
 }
