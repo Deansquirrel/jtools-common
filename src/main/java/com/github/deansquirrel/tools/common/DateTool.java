@@ -161,6 +161,19 @@ public class DateTool {
 	}
 
 	/**
+	 * 获取偏移月份的首日
+	 * @param date 指定日期
+	 * @param monthAmount 偏移约束
+	 * @return 维护后的日期
+	 */
+	public static Date GetMonthFirstDay(Date date, int monthAmount) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.add(Calendar.MONTH, monthAmount);
+		return GetMonthFirstDay(cal.getTime());
+	}
+
+	/**
 	 * 获取下月首日
 	 * @param date 指定日期
 	 * @return 维护后的日期
