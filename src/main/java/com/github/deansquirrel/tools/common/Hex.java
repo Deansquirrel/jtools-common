@@ -83,7 +83,7 @@ public class Hex {
     /**
      * bytes字符串转换为Byte值
      * @param src Byte字符串，每个Byte之间没有分隔符
-     * @return
+     * @return 转换结果
      */
     public static byte[] hexStr2Bytes(String src) {
         int m = 0, n = 0;
@@ -101,7 +101,7 @@ public class Hex {
      * tring的字符串转换成unicode的String
      * @param strText strText 全角字符串
      * @return 每个unicode之间无分隔符
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static String strToUnicode(String strText) throws Exception {
         char c;
@@ -214,7 +214,7 @@ public class Hex {
     /**
      * 将十六进制字符数组转换为字节数组
      * @param data 十六进制char[]
-     * @return
+     * @return 转换结果
      * @throws RuntimeException 如果源十六进制字符数组是一个奇怪的长度，将抛出运行时异常
      */
     public static byte[] decodeHex(char[] data) {

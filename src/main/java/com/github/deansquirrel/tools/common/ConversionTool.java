@@ -11,8 +11,8 @@ public class ConversionTool {
 
 	/***
 	 * java.sql.Date 转 java.util.Date 
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return 转换后的日期
 	 */
 	public static java.util.Date ConvertSqlDateToUtilDate(java.sql.Date date){
 		if(date == null) {
@@ -23,8 +23,8 @@ public class ConversionTool {
 	
 	/***
 	 * java.util.Date 转 java.sql.Date 
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return 转换后的日期
 	 */
 	public static java.sql.Date ConvertUtilDateToSqlDate(java.util.Date date){
 		if(date == null) {

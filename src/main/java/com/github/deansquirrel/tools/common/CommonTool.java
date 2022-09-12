@@ -16,10 +16,11 @@ public class CommonTool {
 	
 	private CommonTool() {}
 	
-	/***
+	/**
 	 * MD5计算
 	 * @param data 源数据
 	 * @return 32位MD5
+	 * @throws NoSuchAlgorithmException Exception
 	 */
 	public static String Md5Encode(byte[] data) throws NoSuchAlgorithmException {
 	    MessageDigest md5;
