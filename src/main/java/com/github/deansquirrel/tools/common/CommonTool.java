@@ -72,5 +72,27 @@ public class CommonTool {
 		}
 		return result;
 	}
+
+	/**
+	 * 检查入参是否为null
+	 * @param obj 对象
+	 * @param msg 异常消息
+	 */
+	public static void notNull(Object obj, String msg) {
+		if(obj == null) {
+			throw new IllegalArgumentException(msg);
+		}
+	}
+
+	/**
+	 * 检查字符串是否为空 null 或 “” 均视为empty
+	 * @param obj 字符串
+	 * @param msg 异常消息
+	 */
+	public static void notEmpty(String obj, String msg) {
+		if(obj == null || "".equals(obj)) {
+			throw new IllegalArgumentException(msg);
+		}
+	}
 	 
 }
