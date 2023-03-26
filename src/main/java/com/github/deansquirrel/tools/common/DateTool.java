@@ -409,4 +409,27 @@ public class DateTool {
 		return GetQuarterLastDay(date);
 	}
 
+	/**
+	 * 获取前一天的日期
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetPreviousDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		return cal.getTime();
+	}
+
+	/**
+	 * 获取后一天的日期
+	 * @param date 指定日期
+	 * @return 维护后的日期
+	 */
+	public static Date GetNextDay(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		return cal.getTime();
+	}
 }
