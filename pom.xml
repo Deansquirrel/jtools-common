@@ -10,7 +10,7 @@
   </parent>
   <artifactId>tools-common</artifactId>
 <!--   <version>0.0.0</version>-->
-  <version>0.1.4</version>
+  <version>0.1.5</version>
   <name>tools-common</name>
   <url>https://github.com/Deansquirrel/jtools-common</url>
   <description>tools common</description>

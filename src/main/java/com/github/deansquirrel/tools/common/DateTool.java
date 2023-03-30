@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /***
  * 日期工具类
@@ -432,4 +434,81 @@ public class DateTool {
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		return cal.getTime();
 	}
+
+	/**
+	 * 根据指定的开始日期、截止日期、维度、步长拆分成多个日期段
+	 * @param field 日期拆分维度，同 Calendar
+	 * @param amount 步长
+	 * @param begDate 开始日期
+	 * @param endDate 截止日期
+	 * @return 拆分后的日期组
+	 */
+	public static Map<Date, Date> splitDate(int field, int amount, Date begDate, Date endDate) {
+		if(ValidateUtil.isEmpty(begDate) || ValidateUtil.isEmpty(endDate)) {
+			throw new RuntimeException("开始日期和截止日期不允许为空");
+		}
+		Map<Date, Date> r = new HashMap<>();
+		if(ValidateUtil.areEqualIgnoreCase(
+				DateTool.GetDateTimeWithMillionSecond(begDate),
+				DateTool.GetDateTimeWithMillionSecond(endDate))) {
+			r.put(begDate, endDate);
+			return r;
+		}
+		Calendar begCal = Calendar.getInstance();
+		begCal.setTimeInMillis(begDate.getTime());
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTimeInMillis(endDate.getTime());
+		if((amount >= 0 && endCal.before(begCal)) || (amount <= 0 && endCal.after(begCal))) {
+			throw new RuntimeException("日期分割异常【无止境拆分】");
+		}
+		while((amount > 0 && endCal.after(begCal)) || (amount < 0 && endCal.before(begCal))) {
+			Date b = begCal.getTime();
+			begCal.add(field, amount);
+			if((amount > 0 && endCal.after(begCal)) || (amount < 0 && endCal.before(begCal))) {
+				if(amount > 0) {
+					r.put(b, begCal.getTime());
+				} else {
+					r.put(begCal.getTime(), b);
+				}
+			} else {
+				if(amount > 0) {
+					r.put(b, endDate);
+				} else {
+					r.put(endDate, b);
+				}
+			}
+		}
+		return r;
+	}
+
+	/**
+	 * 根据指定的开始日期、维度、步长、拆分数量获取多个日期段
+	 * @param field 日期拆分维度，同 Calendar
+	 * @param amount 步长
+	 * @param begDate 开始日期
+	 * @param num 拆分数量
+	 * @return 拆分后的日期组
+	 */
+	public static Map<Date, Date> splitDate(int field, int amount, Date begDate, int num) {
+		if(ValidateUtil.isEmpty(begDate)) {
+			throw new RuntimeException("开始日期不允许为空");
+		}
+		if(amount == 0 || num < 0) {
+			throw new RuntimeException("日期分割异常【无止境拆分】");
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(begDate.getTime());
+		Map<Date, Date> r = new HashMap<>();
+		for(int i = 0; i < num; i++) {
+			Date b = cal.getTime();
+			cal.add(field, amount);
+			if(amount > 0) {
+				r.put(b, cal.getTime());
+			} else {
+				r.put(cal.getTime(), b);
+			}
+		}
+		return r;
+	}
+
 }

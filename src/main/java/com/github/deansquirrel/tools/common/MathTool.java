@@ -1,13 +1,8 @@
 package com.github.deansquirrel.tools.common;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Random;
-
-/***
- * 计算工具类
- * @author yuansong6@163.com
- *
- */
 
 public class MathTool {
 	
@@ -72,4 +67,43 @@ public class MathTool {
 		}
 		return a.add(b);
 	}
+
+	public static BigDecimal addBigDecimal(BigDecimal... l) {
+		if(ValidateUtil.isEmpty(l)) {
+			return null;
+		}
+		BigDecimal r = l[0];
+		for(int i = 1; i < l.length; i++) {
+			r = addBigDecimal(r, l[i]);
+		}
+		return r;
+	}
+
+	public static BigDecimal subtractBigDecimal(BigDecimal a, BigDecimal b) {
+		if(a == null && b == null) {
+			return null;
+		}
+		if(a == null) {
+			return b.negate();
+		}
+		if(b == null) {
+			return a;
+		}
+		return a.subtract(b);
+	}
+
+	public static BigDecimal multiplyBigDecimal(BigDecimal a, BigDecimal b) {
+		if(a == null || b == null) {
+			return null;
+		}
+		return a.multiply(b);
+	}
+
+	public static BigDecimal divideBigDecimal(BigDecimal a, BigDecimal b) {
+		if(a == null || b == null) {
+			return null;
+		}
+		return a.divide(b, RoundingMode.HALF_UP);
+	}
+
 }
