@@ -26,7 +26,7 @@ public class DateTool {
 	 * @return 字符串
 	 */
 	public static String GetStr(Date date, String format) {
-		if (date == null || format == null || format.trim().equals("")) {
+		if (date == null || format == null || format.trim().isEmpty()) {
 			return null;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -101,7 +101,7 @@ public class DateTool {
 	 * @throws ParseException 转换异常
 	 */
 	public static Date ParseStr(String date, String format) throws ParseException {
-		if (date == null || format == null || format.trim().equals("")) {
+		if (date == null || format == null || format.trim().isEmpty()) {
 			return null;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -146,8 +146,19 @@ public class DateTool {
 	public static Date GetZeroDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(date.getTime());
-		cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0,0,0);
+		cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+				0,0,0);
 		return cal.getTime();
+	}
+
+	public static Date GetZeroDate(Date date, int dayAmount) {
+		if(dayAmount == 0) {
+			return GetZeroDate(date);
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(GetZeroDate(date).getTime());
+		cal.add(Calendar.DAY_OF_MONTH, dayAmount);
+		return GetZeroDate(cal.getTime());
 	}
 
 	/**
@@ -169,6 +180,9 @@ public class DateTool {
 	 * @return 维护后的日期
 	 */
 	public static Date GetMonthFirstDay(Date date, int monthAmount) {
+		if(monthAmount == 0) {
+			return GetMonthFirstDay(date);
+		}
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(GetZeroDate(date).getTime());
 		cal.add(Calendar.MONTH, monthAmount);
@@ -181,10 +195,7 @@ public class DateTool {
 	 * @return 维护后的日期
 	 */
 	public static Date GetNextMonthFirstDay(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetZeroDate(date).getTime());
-		cal.add(Calendar.MONTH, 1);
-		return GetMonthFirstDay(cal.getTime());
+        return GetMonthFirstDay(date, 1);
 	}
 
 	/**
@@ -193,10 +204,7 @@ public class DateTool {
 	 * @return 维护后的日期
 	 */
 	public static Date GetPreviousMonthFirstDay(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetZeroDate(date).getTime());
-		cal.add(Calendar.MONTH, -1);
-		return GetMonthFirstDay(cal.getTime());
+        return GetMonthFirstDay(date, -1);
 	}
 
 	/**
@@ -417,10 +425,7 @@ public class DateTool {
 	 * @return 维护后的日期
 	 */
 	public static Date GetPreviousDay(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetZeroDate(date).getTime());
-		cal.add(Calendar.DAY_OF_MONTH, -1);
-		return cal.getTime();
+		return GetZeroDate(date, -1);
 	}
 
 	/**
@@ -429,10 +434,7 @@ public class DateTool {
 	 * @return 维护后的日期
 	 */
 	public static Date GetNextDay(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(GetZeroDate(date).getTime());
-		cal.add(Calendar.DAY_OF_MONTH, 1);
-		return cal.getTime();
+		return GetZeroDate(date, 1);
 	}
 
 	/**
@@ -440,15 +442,17 @@ public class DateTool {
 	 * @param field 日期拆分维度，同 Calendar
 	 * @param amount 步长
 	 * @param begDate 开始日期
-	 * @param endDate 截止日期
+	 * @param endDate 截止日期（含）
 	 * @return 拆分后的日期组
 	 */
 	public static Map<Date, Date> splitDate(int field, int amount, Date begDate, Date endDate) {
-		if(ValidateUtil.isEmpty(begDate) || ValidateUtil.isEmpty(endDate)) {
+		//TODO 调整参数结束日期处理方式，修改为结果集包含截止日期
+		//TODO 调整规则判断，入参日期为空是增加默认日期
+		if(ValidateTool.isEmpty(begDate) || ValidateTool.isEmpty(endDate)) {
 			throw new RuntimeException("开始日期和截止日期不允许为空");
 		}
 		Map<Date, Date> r = new HashMap<>();
-		if(ValidateUtil.areEqualIgnoreCase(
+		if(ValidateTool.areEqualIgnoreCase(
 				DateTool.GetDateTimeWithMillionSecond(begDate),
 				DateTool.GetDateTimeWithMillionSecond(endDate))) {
 			r.put(begDate, endDate);
@@ -490,14 +494,12 @@ public class DateTool {
 	 * @return 拆分后的日期组
 	 */
 	public static Map<Date, Date> splitDate(int field, int amount, Date begDate, int num) {
-		if(ValidateUtil.isEmpty(begDate)) {
-			throw new RuntimeException("开始日期不允许为空");
-		}
 		if(amount == 0 || num < 0) {
 			throw new RuntimeException("日期分割异常【无止境拆分】");
 		}
+		Date d = ValidateTool.isEmpty(begDate) ? GetZeroDate(new Date()) : begDate;
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(begDate.getTime());
+		cal.setTimeInMillis(d.getTime());
 		Map<Date, Date> r = new HashMap<>();
 		for(int i = 0; i < num; i++) {
 			Date b = cal.getTime();

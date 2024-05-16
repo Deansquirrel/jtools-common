@@ -14,7 +14,17 @@ import java.util.Date;
 public class SQLTool {
 	
 	private SQLTool() {}
-	
+
+	/**
+	 * 判断结果集中是否包含特定名称的列
+	 * @param rs 结果集
+	 * @param columnName 列名称
+	 * @return True-包含 false-不包含
+	 */
+	public static boolean isExistColumn(ResultSet rs, String columnName) throws SQLException {
+		return rs.findColumn(columnName) > 0;
+	}
+
 	/**
 	 * 获取字符串
 	 * @param rs ResultSet

@@ -1,8 +1,12 @@
 package com.github.deansquirrel.tools.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +17,8 @@ import java.util.List;
  */
 
 public class CommonTool {
+
+	private static final Logger logger = LoggerFactory.getLogger(CommonTool.class);
 	
 	private CommonTool() {}
 	
@@ -73,26 +79,62 @@ public class CommonTool {
 		return result;
 	}
 
+
 	/**
-	 * 检查入参是否为null
-	 * @param obj 对象
-	 * @param msg 异常消息
+	 * 等待特定秒数
+	 * @param s 秒数
 	 */
-	public static void notNull(Object obj, String msg) {
-		if(obj == null) {
-			throw new IllegalArgumentException(msg);
+	public static void sleepSeconds(int s) {
+		logger.debug(MessageFormat.format("等待 {0} 秒", s));
+        try {
+            Thread.sleep(s * 1000L);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+	/**
+	 * 等待随机秒数
+	 * @param min 最小等待秒数
+	 * @param max 最大等待秒数
+	 */
+	public static void sleepSeconds(int min, int max) {
+		if(Math.min(min, max) < 1) {
+			return;
 		}
+		int s = MathTool.RandInt(min, max);
+		sleepSeconds(s);
 	}
 
 	/**
-	 * 检查字符串是否为空 null 或 “” 均视为empty
-	 * @param obj 字符串
-	 * @param msg 异常消息
+	 * 等待特定毫秒数
+	 * @param m 等待毫秒数
 	 */
-	public static void notEmpty(String obj, String msg) {
-		if(obj == null || "".equals(obj)) {
-			throw new IllegalArgumentException(msg);
+	public static void sleepMillionSeconds(long m) {
+        try {
+            Thread.sleep(m);
+        } catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+        }
+    }
+
+	private static String lastTimeStr = "";
+
+	public synchronized static String getNextTimeStr() {
+		String s = getTimeStr();
+		while(s.equals(lastTimeStr)) {
+			s = getTimeStr();
 		}
+		lastTimeStr = s;
+		return lastTimeStr;
 	}
+
+	private static String getTimeStr() {
+		return DateTool.GetDateTimeStr()
+				.replace(" ","")
+				.replace(":","")
+				.replace("-","");
+	}
+
 	 
 }

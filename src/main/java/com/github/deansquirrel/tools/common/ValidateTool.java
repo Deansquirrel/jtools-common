@@ -3,7 +3,7 @@ package com.github.deansquirrel.tools.common;
 import java.util.Collection;
 import java.util.Map;
 
-public class ValidateUtil {
+public class ValidateTool {
 
     /**
      * 判断 对象是否相等，equals

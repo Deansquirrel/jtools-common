@@ -1,6 +1,7 @@
 package com.github.deansquirrel.tools.common;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Random;
 
@@ -14,23 +15,12 @@ public class MathTool {
 	 * @param max 最大值（不含）
 	 * @return 整数
 	 */
-	public static Integer RandInt(Integer min,Integer max) {
-		if(min == null) {
-			min = 0;
-		}
-		if(max == null) {
-			max = 0;
-		}
-		if(min.equals(max)) {
+	public static int RandInt(int min, int max) {
+		if(min == max) {
 			return min;
 		}
-		if(min>max) {
-			Integer t = min;
-			min = max;
-			max = t;
-		}
 		Random r = new Random();
-		return min + r.nextInt(max-min);
+		return Math.min(min, max) + r.nextInt(Math.max(min, max) - Math.min(min, max));
 	}
 	
 	/**
@@ -38,45 +28,128 @@ public class MathTool {
 	 * @param max 最大值（不含）
 	 * @return 整数
 	 */
-	public static Integer RandInt(Integer max) {
+	public static int RandInt(int max) {
 		return RandInt(0, max);
 	}
 
-	public static Long addLong(Long a, Long b) {
-		if(a == null && b == null) {
-			return null;
-		}
+	private static <T extends Number> T addT(T a, T b, Class<T> clazz) throws ClassCastException {
+		if(a == null && b == null) return null;
 		if(a == null) {
 			return b;
 		}
 		if(b == null) {
 			return a;
 		}
-		return a + b;
+		if(a instanceof Byte && b instanceof Byte) {
+			Byte r = (byte)(a.byteValue() + b.byteValue());
+			return clazz.cast(r);
+		}
+		if(a instanceof Integer && b instanceof Integer) {
+			Integer r = a.intValue() + b.intValue();
+			return clazz.cast(r);
+		}
+		if(a instanceof BigInteger && b instanceof BigInteger) {
+			BigInteger r = ((BigInteger) a).add((BigInteger) b);
+			return clazz.cast(r);
+		}
+		if(a instanceof Short && b instanceof Short) {
+			Short r = (short)(a.shortValue() + b.shortValue());
+			return clazz.cast(r);
+		}
+		if(a instanceof Float && b instanceof Float) {
+			Float r = a.floatValue() + b.floatValue();
+			return clazz.cast(r);
+		}
+		if(a instanceof Long && b instanceof Long) {
+			Long r = a.longValue() + b.longValue();
+			return clazz.cast(r);
+		}
+		if(a instanceof Double && b instanceof Double) {
+			Double r = a.doubleValue() + b.doubleValue();
+			return clazz.cast(r);
+		}
+		if(a instanceof BigDecimal && b instanceof BigDecimal) {
+			BigDecimal r = ((BigDecimal) a).add((BigDecimal) b);
+			return clazz.cast(r);
+		}
+		// 未预知的类型一律返回运行时异常
+		throw new ClassCastException("unknown handle type " + clazz.toString());
+	}
+
+	@SafeVarargs
+	private static <T extends Number> T addT(Class<T> clazz, T... l) {
+		if(ValidateTool.isEmpty(l)) {
+			return null;
+		}
+		T r = l[0];
+		for(int i = 1; i < l.length; i++) {
+			r = addT(r, l[i], clazz);
+		}
+		return r;
+	}
+
+	public static Byte addData(Byte a, Byte b) {
+		return addT(a, b, Byte.class);
+	}
+
+	public static Byte addData(Byte... l) {
+		return addT(Byte.class, l);
+	}
+
+	public static Integer addData(Integer a, Integer b) {
+		return addT(a, b, Integer.class);
+	}
+
+	public static Integer addData(Integer... l) {
+		return addT(Integer.class, l);
+	}
+
+	public static BigInteger addData(BigInteger a, BigInteger b) {
+		return addT(a, b, BigInteger.class);
+	}
+
+	public static BigInteger addData(BigInteger... l) {
+		return addT(BigInteger.class, l);
+	}
+
+	public static Short addData(Short a, Short b) {
+		return addT(a, b, Short.class);
+	}
+
+	public static Short addData(Short... l) {
+		return addT(Short.class, l);
+	}
+
+	public static Float addData(Float a, Float b) {
+		return addT(a, b, Float.class);
+	}
+
+	public static Float addData(Float... l) {
+		return addT(Float.class, l);
+	}
+
+	public static Long addData(Long a, Long b) {
+		return addT(a, b, Long.class);
+	}
+
+	public static Long addData(Long... l) {
+		return addT(Long.class, l);
+	}
+
+	public static Double addData(Double a, Double b) {
+		return addT(a, b, Double.class);
+	}
+
+	public static Double addData(Double... l) {
+		return addT(Double.class, l);
 	}
 
 	public static BigDecimal addBigDecimal(BigDecimal a, BigDecimal b) {
-		if(a == null && b == null) {
-			return null;
-		}
-		if(a == null) {
-			return b;
-		}
-		if(b == null) {
-			return a;
-		}
-		return a.add(b);
+		return addT(a, b, BigDecimal.class);
 	}
 
 	public static BigDecimal addBigDecimal(BigDecimal... l) {
-		if(ValidateUtil.isEmpty(l)) {
-			return null;
-		}
-		BigDecimal r = l[0];
-		for(int i = 1; i < l.length; i++) {
-			r = addBigDecimal(r, l[i]);
-		}
-		return r;
+		return addT(BigDecimal.class, l);
 	}
 
 	public static BigDecimal subtractBigDecimal(BigDecimal a, BigDecimal b) {
@@ -105,5 +178,29 @@ public class MathTool {
 		}
 		return a.divide(b, RoundingMode.HALF_UP);
 	}
+
+	/**
+	 * 将入参数值缩小指定倍数
+	 * @param num 待处理数值
+	 * @param ret 缩小位数
+	 * @return 处理后的数值
+	 */
+	public static BigDecimal transDecimal(BigDecimal num, int ret) {
+		if(num == null || ret == 0) {
+			return num;
+		}
+		BigDecimal r = new BigDecimal(ret > 0 ? "10.0" : "0.1").setScale(num.scale(), RoundingMode.HALF_UP);
+		return num.multiply(r.pow(Math.abs(ret))).setScale(num.scale(), RoundingMode.HALF_UP);
+	}
+
+	/**
+	 * 将入参数值缩小10000倍
+	 * @param num 入参金额
+	 * @return 处理后的金额
+	 */
+	public static BigDecimal transMoneyWan(BigDecimal num) {
+		return transDecimal(num, 4);
+	}
+
 
 }

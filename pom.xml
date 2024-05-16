@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.github.deansquirrel</groupId>
     <artifactId>tools-parent</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <artifactId>tools-common</artifactId>
 <!--   <version>0.0.0</version>-->
-  <version>0.1.5</version>
+  <version>0.0.0</version>
   <name>tools-common</name>
   <url>https://github.com/Deansquirrel/jtools-common</url>
   <description>tools common</description>
@@ -47,6 +47,22 @@
       <groupId>org.slf4j</groupId>
       <artifactId>jul-to-slf4j</artifactId>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
     </dependency>
   </dependencies>
 
