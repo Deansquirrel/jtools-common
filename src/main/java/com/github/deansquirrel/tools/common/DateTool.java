@@ -101,40 +101,20 @@ public class DateTool {
 	 * @throws ParseException 转换异常
 	 */
 	public static Date ParseStr(String date, String format) throws ParseException {
-		if (date == null || format == null || format.trim().isEmpty()) {
+		if (date == null || format == null || date.trim().isEmpty() || format.trim().isEmpty()) {
 			return null;
 		}
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = new SimpleDateFormat(date.length() < format.length() ? format.substring(0, date.length() - 1) : format);
 		return sdf.parse(date);
 	}
 
 	/**
-	 * 根据日期字符串转换日期 yyyy-MM-dd
-	 * @param date 日期
-	 * @return 字符串
+	 * 按默认格式转换
+	 * @param date 日期字符串
+	 * @return 日期
 	 * @throws ParseException 转换异常
 	 */
-	public static Date ParseDateStr(String date) throws ParseException {
-		return ParseStr(date, _dateFormat);
-	}
-	
-	/**
-	 * 根据日期字符串转换日期 yyyy-MM-dd HH:mm:ss
-	 * @param date 日期
-	 * @return 字符串
-	 * @throws ParseException 转换异常
-	 */
-	public static Date ParseDateTimeStr(String date) throws ParseException {
-		return ParseStr(date, _datetimeFormat);
-	}
-	
-	/**
-	 * 根据日期字符串转换日期 yyyy-MM-dd HH:mm:ss.SSS
-	 * @param date 日期
-	 * @return 字符串
-	 * @throws ParseException 转换异常
-	 */
-	public static Date ParseDateTimeWithMillionSecond(String date) throws ParseException {
+	public static Date ParseStr(String date) throws ParseException {
 		return ParseStr(date, _datetimeWithMillionSecondFormat);
 	}
 

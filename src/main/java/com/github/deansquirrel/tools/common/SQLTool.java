@@ -206,10 +206,10 @@ public class SQLTool {
 	 */
 	public static Date getSQLiteDateTime(ResultSet rs, String columnLabel) throws SQLException, ParseException {
 		String t = SQLTool.getString(rs, columnLabel);
-		if(t == null || "".equals(t)) {
+		if(t == null || t.isEmpty()) {
 			return null;
 		}
-		return DateTool.ParseDateTimeStr(t.substring(0, 19));
+		return DateTool.ParseStr(t.substring(0, 19));
 	}
 
 	/**
@@ -222,10 +222,10 @@ public class SQLTool {
 	 */
 	public static Date getSQLiteDate(ResultSet rs, String columnLabel) throws SQLException, ParseException {
 		String t = SQLTool.getString(rs, columnLabel);
-		if(t == null || "".equals(t)) {
+		if(t == null || t.isEmpty()) {
 			return null;
 		}
-		return DateTool.ParseDateStr(t.substring(0, 10));
+		return DateTool.ParseStr(t.substring(0, 10));
 	}
 
 	/**
@@ -238,11 +238,11 @@ public class SQLTool {
 	 * @throws ParseException Exception
 	 */
 	public static Date getSQLiteDate(ResultSet rs, String columnLabel, String dateFormat) throws SQLException, ParseException {
-		if(dateFormat == null || "".equals(dateFormat)) {
+		if(dateFormat == null || dateFormat.isEmpty()) {
 			return null;
 		}
 		String t = SQLTool.getString(rs, columnLabel);
-		if(t == null || "".equals(t)) {
+		if(t == null || t.isEmpty()) {
 			return null;
 		}
 		return DateTool.ParseStr(t.substring(0,  dateFormat.length()), dateFormat);

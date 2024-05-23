@@ -73,7 +73,7 @@ public class CommonTool {
 			}
 			sList.add(list.get(i));
 		}
-		if(sList.size() > 0) {
+		if(!sList.isEmpty()) {
 			result.add(sList);
 		}
 		return result;
@@ -85,7 +85,7 @@ public class CommonTool {
 	 * @param s 秒数
 	 */
 	public static void sleepSeconds(int s) {
-		logger.debug(MessageFormat.format("等待 {0} 秒", s));
+		logger.info(MessageFormat.format("等待 {0} 秒", s));
         try {
             Thread.sleep(s * 1000L);
         } catch (InterruptedException e) {
@@ -123,6 +123,7 @@ public class CommonTool {
 	public synchronized static String getNextTimeStr() {
 		String s = getTimeStr();
 		while(s.equals(lastTimeStr)) {
+			sleepMillionSeconds(1000L);
 			s = getTimeStr();
 		}
 		lastTimeStr = s;

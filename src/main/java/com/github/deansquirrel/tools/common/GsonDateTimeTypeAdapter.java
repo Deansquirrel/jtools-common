@@ -23,7 +23,7 @@ public class GsonDateTimeTypeAdapter extends TypeAdapter<Date> {
             if(ValidateTool.isEmpty(str)) {
                 return null;
             }
-            return DateTool.ParseDateTimeStr(str);
+            return DateTool.ParseStr(str);
         } catch (ParseException e) {
             throw new IOException(e);
         }
