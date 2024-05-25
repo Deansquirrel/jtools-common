@@ -49,6 +49,12 @@ public class FileTool {
         }
     }
 
+    /**
+     * 文件格式转换
+     * @param mf MultipartFile格式文件爱你对象
+     * @return File文件对象
+     * @throws IOException IO异常
+     */
     public static File transFile(MultipartFile mf) throws IOException {
         String fileName = mf.getOriginalFilename();
         if(fileName == null || fileName.isEmpty()) {
