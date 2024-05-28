@@ -125,7 +125,8 @@ public class DateTool {
 	 */
 	public static Date GetZeroDate(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(date.getTime());
+		long t = (date == null ? new Date() : date).getTime();
+		cal.setTimeInMillis(t - t % 1000L);
 		cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
 				0,0,0);
 		return cal.getTime();
