@@ -205,7 +205,7 @@ public class SQLTool {
 	 * @throws ParseException Exception
 	 */
 	public static Date getSQLiteDateTime(ResultSet rs, String columnLabel) throws SQLException, ParseException {
-		String t = SQLTool.getString(rs, columnLabel);
+		String t = getString(rs, columnLabel);
 		if(t == null || t.isEmpty()) {
 			return null;
 		}
@@ -221,7 +221,7 @@ public class SQLTool {
 	 * @throws ParseException Exception
 	 */
 	public static Date getSQLiteDate(ResultSet rs, String columnLabel) throws SQLException, ParseException {
-		String t = SQLTool.getString(rs, columnLabel);
+		String t = getString(rs, columnLabel);
 		if(t == null || t.isEmpty()) {
 			return null;
 		}
@@ -241,7 +241,7 @@ public class SQLTool {
 		if(dateFormat == null || dateFormat.isEmpty()) {
 			return null;
 		}
-		String t = SQLTool.getString(rs, columnLabel);
+		String t = getString(rs, columnLabel);
 		if(t == null || t.isEmpty()) {
 			return null;
 		}

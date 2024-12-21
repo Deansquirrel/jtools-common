@@ -42,11 +42,11 @@ public class ValidateTool {
         if (value == null) {
             return true;
         } else if (value instanceof String) {
-            return ((String)value).length() == 0;
+            return ((String) value).isEmpty();
         } else if (value instanceof Collection) {
-            return ((Collection<?>)value).size() == 0;
+            return ((Collection<?>) value).isEmpty();
         } else if (value instanceof Map) {
-            return ((Map<?,?>)value).size() == 0;
+            return ((Map<?, ?>) value).isEmpty();
         } else if (value instanceof String[]) {
             return ((String[]) value).length == 0;
         } else {
@@ -60,7 +60,7 @@ public class ValidateTool {
      * @return 是否
      */
     public static boolean isEmpty(String s) {
-        return s == null || s.length() == 0;
+        return s == null || s.isEmpty();
     }
 
     /**
@@ -78,7 +78,7 @@ public class ValidateTool {
      * @return 是否
      */
     public static boolean isNotEmpty(String s) {
-        return s != null && s.length() > 0;
+        return s != null && !s.isEmpty();
     }
 
     /**
@@ -87,7 +87,7 @@ public class ValidateTool {
      * @return 是否
      */
     public static boolean isNotEmpty(Collection<?> c) {
-        return c != null && c.size() > 0;
+        return c != null && !c.isEmpty();
     }
 
     /**

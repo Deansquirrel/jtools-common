@@ -17,11 +17,15 @@ public class SpringUtil implements ApplicationContextAware {
         }
     }
 
+    public Object getBean(String beanName) {
+        return applicationContext.getBean(beanName);
+    }
+
     public Object getObjectBean(Class<?> clazz) {
-        return this.applicationContext.getBean(clazz);
+        return applicationContext.getBean(clazz);
     }
 
     public <T> T getBean(Class<T> clazz) {
-        return this.applicationContext.getBean(clazz);
+        return applicationContext.getBean(clazz);
     }
 }

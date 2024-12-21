@@ -427,8 +427,6 @@ public class DateTool {
 	 * @return 拆分后的日期组
 	 */
 	public static Map<Date, Date> splitDate(int field, int amount, Date begDate, Date endDate) {
-		//TODO 调整参数结束日期处理方式，修改为结果集包含截止日期
-		//TODO 调整规则判断，入参日期为空是增加默认日期
 		if(ValidateTool.isEmpty(begDate) || ValidateTool.isEmpty(endDate)) {
 			throw new RuntimeException("开始日期和截止日期不允许为空");
 		}
@@ -479,19 +477,22 @@ public class DateTool {
 			throw new RuntimeException("日期分割异常【无止境拆分】");
 		}
 		Date d = ValidateTool.isEmpty(begDate) ? GetZeroDate(new Date()) : begDate;
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(d.getTime());
-		Map<Date, Date> r = new HashMap<>();
-		for(int i = 0; i < num; i++) {
-			Date b = cal.getTime();
-			cal.add(field, amount);
-			if(amount > 0) {
-				r.put(b, cal.getTime());
-			} else {
-				r.put(cal.getTime(), b);
-			}
-		}
-		return r;
+		Date e = DateTool.GetZeroDate(d, amount * num);
+		return splitDate(field, amount, d, e);
 	}
 
+	/**
+	 * 计算两个日期间相差的天数（根据传入日期的零点计算）
+	 * @param begDate 开始日期（含）
+	 * @param endDate 截止日期（不含）
+	 * @return 天数差
+	 */
+	public static int getDateDiff(Date begDate, Date endDate) {
+		if(ValidateTool.isEmpty(begDate) || ValidateTool.isEmpty(endDate)) {
+			return -1;
+		}
+		long beg = GetZeroDate(begDate).getTime();
+		long end = GetZeroDate(endDate).getTime();
+		return (int) Math.ceil((double) (end - beg) / (24 * 60 * 60 * 1000));
+	}
 }

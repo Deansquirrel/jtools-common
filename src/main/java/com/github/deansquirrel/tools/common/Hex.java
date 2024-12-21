@@ -31,14 +31,14 @@ public class Hex {
     public static String str2HexStr(String str) {
     	 
         char[] chars = "0123456789ABCDEF".toCharArray();
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         byte[] bs = str.getBytes();
         int bit;
- 
-        for (int i = 0; i < bs.length; i++) {
-            bit = (bs[i] & 0x0f0) >> 4;
+
+        for (byte b : bs) {
+            bit = (b & 0x0f0) >> 4;
             sb.append(chars[bit]);
-            bit = bs[i] & 0x0f;
+            bit = b & 0x0f;
             sb.append(chars[bit]);
             sb.append(' ');
         }
@@ -70,12 +70,12 @@ public class Hex {
      * @return 每个Byte值之间空格分隔
      */
     public static String byte2HexStr(byte[] b) {
-        String stmp = "";
-        StringBuilder sb = new StringBuilder("");
-        for (int n = 0; n < b.length; n++) {
-            stmp = Integer.toHexString(b[n] & 0xFF);
+        String stmp;
+        StringBuilder sb = new StringBuilder();
+        for (byte value : b) {
+            stmp = Integer.toHexString(value & 0xFF);
             sb.append((stmp.length() == 1) ? "0" + stmp : stmp);
-//			sb.append(" ");
+			sb.append(" ");
         }
         return sb.toString().toUpperCase().trim();
     }
@@ -113,10 +113,10 @@ public class Hex {
             intAsc = (int) c;
             strHex = Integer.toHexString(intAsc);
             if (intAsc > 128)
-                str.append("\\u" + strHex);
+                str.append("\\u").append(strHex);
             else
                 // 低位在前面补00
-                str.append("\\u00" + strHex);
+                str.append("\\u00").append(strHex);
         }
         return str.toString();
     }
