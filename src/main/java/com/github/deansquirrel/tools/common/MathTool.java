@@ -3,7 +3,10 @@ package com.github.deansquirrel.tools.common;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.BiFunction;
 
 public class MathTool {
 	
@@ -19,8 +22,11 @@ public class MathTool {
 		if(min == max) {
 			return min;
 		}
+		if(min > max) {
+			return RandInt(max, min);
+		}
 		Random r = new Random();
-		return Math.min(min, max) + r.nextInt(Math.max(min, max) - Math.min(min, max));
+		return min + r.nextInt(max - min);
 	}
 	
 	/**
@@ -32,6 +38,24 @@ public class MathTool {
 		return RandInt(0, max);
 	}
 
+	private static final Map<Class<?>, BiFunction<Number, Number, Number>> ADD_OPERATIONS = new HashMap<>();
+
+	static {
+		ADD_OPERATIONS.put(Byte.class, (a, b) -> (byte) ((a.byteValue() & 0xFF) + (b.byteValue() & 0xFF)));
+		ADD_OPERATIONS.put(Integer.class, (a, b) -> a.intValue() + b.intValue());
+		ADD_OPERATIONS.put(Short.class, (a, b) -> (short) (a.shortValue() + b.shortValue()));
+		ADD_OPERATIONS.put(Long.class, (a, b) -> a.longValue() + b.longValue());
+		ADD_OPERATIONS.put(Float.class, (a, b) -> a.floatValue() + b.floatValue());
+		ADD_OPERATIONS.put(Double.class, (a, b) -> a.doubleValue() + b.doubleValue());
+		ADD_OPERATIONS.put(BigInteger.class, (a, b) -> ((BigInteger) a).add((BigInteger) b));
+		ADD_OPERATIONS.put(BigDecimal.class, (a, b) -> {
+			BigDecimal ba = (BigDecimal) a;
+			BigDecimal bb = (BigDecimal) b;
+			updateBigDecimalScale(getMaxBigDecimalScale(ba, bb), ba, bb);
+			return ba.add(bb);
+		});
+	}
+
 	private static <T extends Number> T addT(T a, T b, Class<T> clazz) throws ClassCastException {
 		if(a == null && b == null) return null;
 		if(a == null) {
@@ -40,50 +64,22 @@ public class MathTool {
 		if(b == null) {
 			return a;
 		}
-		if(a instanceof Byte && b instanceof Byte) {
-			Byte r = (byte)(a.byteValue() + b.byteValue());
-			return clazz.cast(r);
+		BiFunction<Number, Number, Number> operation = ADD_OPERATIONS.get(clazz);
+		if (operation == null) {
+			throw new ClassCastException("Unsupported type for addition: " + clazz.getName());
 		}
-		if(a instanceof Integer && b instanceof Integer) {
-			Integer r = a.intValue() + b.intValue();
-			return clazz.cast(r);
-		}
-		if(a instanceof BigInteger && b instanceof BigInteger) {
-			BigInteger r = ((BigInteger) a).add((BigInteger) b);
-			return clazz.cast(r);
-		}
-		if(a instanceof Short && b instanceof Short) {
-			Short r = (short)(a.shortValue() + b.shortValue());
-			return clazz.cast(r);
-		}
-		if(a instanceof Float && b instanceof Float) {
-			Float r = a.floatValue() + b.floatValue();
-			return clazz.cast(r);
-		}
-		if(a instanceof Long && b instanceof Long) {
-			Long r = a.longValue() + b.longValue();
-			return clazz.cast(r);
-		}
-		if(a instanceof Double && b instanceof Double) {
-			Double r = a.doubleValue() + b.doubleValue();
-			return clazz.cast(r);
-		}
-		if(a instanceof BigDecimal && b instanceof BigDecimal) {
-			BigDecimal r = ((BigDecimal) a).add((BigDecimal) b);
-			return clazz.cast(r);
-		}
-		// 未预知的类型一律返回运行时异常
-		throw new ClassCastException("unknown handle type " + clazz.toString());
+		Number result = operation.apply(a, b);
+		return clazz.cast(result);
 	}
 
-	@SafeVarargs
-	private static <T extends Number> T addT(Class<T> clazz, T... l) {
-		if(ValidateTool.isEmpty(l)) {
+    @SafeVarargs
+    private static <T extends Number> T addT(Class<T> clazz, T... l) {
+		if(ValidateTool.isEmpty(clazz) || ValidateTool.isEmpty(l)) {
 			return null;
 		}
-		T r = l[0];
-		for(int i = 1; i < l.length; i++) {
-			r = addT(r, l[i], clazz);
+		T r = null;
+		for(T num : l) {
+			r = addT(r, num, clazz);
 		}
 		return r;
 	}
@@ -144,13 +140,45 @@ public class MathTool {
 		return addT(Double.class, l);
 	}
 
-	public static BigDecimal addBigDecimal(BigDecimal a, BigDecimal b) {
+	public static BigDecimal addData(BigDecimal a, BigDecimal b) {
 		return addT(a, b, BigDecimal.class);
 	}
 
-	public static BigDecimal addBigDecimal(BigDecimal... l) {
+	public static BigDecimal addData(BigDecimal... l) {
 		return addT(BigDecimal.class, l);
 	}
+
+	/**
+	 * 获取BigDecimal最大精度
+	 * @param l 数组
+	 * @return 最大精度
+	 */
+	private static int getMaxBigDecimalScale(BigDecimal... l) {
+		if(ValidateTool.isEmpty(l)) {
+			return 0;
+		}
+		int r = 0;
+		for(BigDecimal b : l) {
+			if(b == null) {
+				continue;
+			}
+			r = Math.max(r, b.scale());
+		}
+		return r;
+	}
+
+	private static void updateBigDecimalScale(int scale, BigDecimal... l) {
+		if (l == null || ValidateTool.isEmpty(l)) {
+			return;
+		}
+		for (int i = 0; i < l.length; i++) {
+			if (l[i] == null) {
+				continue;
+			}
+			l[i] = l[i].setScale(scale, RoundingMode.HALF_UP);
+		}
+	}
+
 
 	public static BigDecimal subtractBigDecimal(BigDecimal a, BigDecimal b) {
 		if(a == null && b == null) {
@@ -162,6 +190,7 @@ public class MathTool {
 		if(b == null) {
 			return a;
 		}
+		updateBigDecimalScale(getMaxBigDecimalScale(a, b), a, b);
 		return a.subtract(b);
 	}
 
@@ -169,6 +198,7 @@ public class MathTool {
 		if(a == null || b == null) {
 			return null;
 		}
+		updateBigDecimalScale(getMaxBigDecimalScale(a, b), a, b);
 		return a.multiply(b);
 	}
 
@@ -176,6 +206,7 @@ public class MathTool {
 		if(a == null || b == null) {
 			return null;
 		}
+		updateBigDecimalScale(getMaxBigDecimalScale(a, b), a, b);
 		return a.divide(b, RoundingMode.HALF_UP);
 	}
 
@@ -189,7 +220,7 @@ public class MathTool {
 		if(num == null || ret == 0) {
 			return num;
 		}
-		int scale = num.scale();
+		int scale = num.scale() + (ret < 0 ? Math.abs(ret) : 0);
 		BigDecimal r = new BigDecimal(ret > 0 ? "10.0" : "0.1").setScale(scale, RoundingMode.HALF_UP);
 		return num.multiply(r.pow(Math.abs(ret))).setScale(scale, RoundingMode.HALF_UP);
 	}
@@ -200,7 +231,10 @@ public class MathTool {
 	 * @return 处理后的金额
 	 */
 	public static BigDecimal transMoneyWan(BigDecimal num) {
-		return transMoneyWan(num, num.scale());
+		if(num == null) {
+			return null;
+		}
+		return transMoneyWan(num, num.scale() + 4);
 	}
 
 	/**
